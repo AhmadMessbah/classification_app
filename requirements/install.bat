@@ -6,7 +6,7 @@ pip install scipy
 pip install pandas
 pip install lxml
 pip install openpyxl
-pip install lxrd
+pip install xlrd
 
 pip install scikit-learn
 
