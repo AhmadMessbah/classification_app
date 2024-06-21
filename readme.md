@@ -1,9 +1,10 @@
 Classification WebApp Tasks :
 
     - Lotfi         SVC
-    - Azadeh        Logistic
+    - Azadeh        LogisticRegression
     - Mokhtari      RandomForest
     - Ahadi         DesicionTree
     - Mehran        MLP
     - MahdiKhani    KNN
+    - Akbari        LinearRegression
     
