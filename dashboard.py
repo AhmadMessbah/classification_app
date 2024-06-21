@@ -6,7 +6,7 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 
-from models.svc_model_ import *
+from svc_model_ import *
 
 st.title("Machine Learning Dashboard")
 
