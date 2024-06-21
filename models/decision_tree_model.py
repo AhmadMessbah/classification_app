@@ -24,9 +24,9 @@ def decision_tree_tester(model, x_test, y_test):
     pred = model.predict(x_test)
     return classification_report(y_test,pred)
 
-
+#
 # X,y = load_digits(return_X_y=True)
-# x_train, x_test, y_train, y_test = train_test_split(X,y,test_size=0.2,random_state=0)
+# x_train, x_test, y_train, y_test = train_test_split(X,y,test_size=0.2,stratify=y,random_state=0)
 # model = decision_tree_model_maker()
 # model = decision_tree_trainer(model, x_train, y_train)
 # print(decision_tree_tester(model, x_test, y_test))
