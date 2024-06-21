@@ -7,6 +7,7 @@ from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 from models.rf_model import *
 from models.svc_model_ import *
+from models.decision_tree_model import *
 
 st.title("Machine Learning Dashboard")
 
@@ -53,8 +54,14 @@ match model_name:
         report = svc_tester(model, x_test, y_test)
 
     case "DecisionTreeClassifier":
-        d_tree_splitter = st.text_input("splitter", "best")
-        model = DecisionTreeClassifier(splitter=d_tree_splitter)
+        splitter = st.text_input("splitter")
+        criterion = st.text_input("criterion")
+        min_samples_split = st.text_input("min_samples_split")
+        min_samples_leaf = st.text_input("min_samples_leaf")
+        model = decision_tree_model_maker(criterion,splitter,min_samples_split,min_samples_leaf)
+        model = decision_tree_trainer(model,x_train,y_train)
+        report = decision_tree_tester(model, x_test, y_test)
+        st.write(report)
 
     case "MLPClassifier":
         mlp_hidden_layers = st.text_input("hidden_layer_sizes", (100,))
