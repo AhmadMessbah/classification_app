@@ -71,7 +71,7 @@ match model_name:
         n_estimators = st.text_input("n_estimators" , 100)
         min_samples_split = st.text_input("min_samples_split" , 2)
         min_samples_leaf = st.text_input("min_samples_leaf" , 2)
-        criterion = st.text_input("criterion" , 'gini')
+        criterion = st.selectbox("criterion" , ["gini", "entropy"])
         model = rf_model_maker (n_estimators=n_estimators,min_samples_split=min_samples_split)
 
 if st.button("Train"):
