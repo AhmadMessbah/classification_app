@@ -38,7 +38,7 @@ if dataset_file:
 if st.checkbox("Train Test Split"):
     test_size = int(st.slider("Test Size %",5,50,20))
     x_train, x_test, y_train, y_test = data_splitter(X, y, test_size=test_size)
-
+model_name = 'SVC'
 model_name = st.selectbox("Select Model",
                           ["LogisticRegression", "KNeighborsClassifier", "SVC", "DecisionTreeClassifier",
                            "MLPClassifier","RandomForestClassifier"])
