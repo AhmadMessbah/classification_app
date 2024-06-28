@@ -6,6 +6,7 @@ from models import *
 
 st.title("Machine Learning Dashboard")
 
+
 style = "<style> .appview-container .main .block-container{ max-width: 100%; padding: 50px;}</style>"""
 st.markdown(body=style, unsafe_allow_html=True)
 
