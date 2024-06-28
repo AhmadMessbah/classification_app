@@ -4,16 +4,14 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.svm import SVC
 
 def train_model(model, params, x_train, y_train):
-    params= {'C'=}
+    # params= {'C'=}
     grid_search = GridSearchCV(estimator=SVC(), param_grid=params, verbose=1, n_jobs=-1, scoring="accuracy")
     grid_search.fit(x_train, y_train)
     print(grid_search.best_score_)
     print(grid_search.best_params_)
     return grid_search.best_estimator_
 
-def data_splitter(X,y,test_size=20):
-    test_size /= 100
-    return train_test_split(X, y, test_size=test_size, stratify=y, random_state=0)
+
 
 def svc_model_maker(C=1.0, kernel="rbf", degree=3, gamma="scale"):
     model = SVC(C=C,

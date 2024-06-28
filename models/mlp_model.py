@@ -1,29 +1,29 @@
-import cv2
-from sklearn.datasets import load_digits
-import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report, confusion_matrix
-import numpy as np
-from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
-import os
-from sklearn.metrics import ConfusionMatrixDisplay
 
-digits = load_digits()
 
-X, y = digits.data, digits.target
+def mlp_model_maker(mlp_hidden_layers=(100,),activation="relu", solver="adam"):
+    model = MLPClassifier(
+        hidden_layer_sizes=mlp_hidden_layers,
+        activation=activation,
+        solver=solver
+    )
+    return model
 
-X = X / np.max(X)
+def mlp_trainer(model, x_train, y_train):
+    model.fit(x_train, y_train)
+    return model
 
-x_train, x_test, y_train, y_test = train_test_split(X, y, shuffle=True, stratify=y, test_size=0.2)
+def mlp_tester(model, x_test, y_test):
+    predict = model.predict(x_test)
+    return classification_report(y_test, predict)
 
-model = MLPClassifier(hidden_layer_sizes=(512,), max_iter=50, solver='adam', verbose=True, learning_rate_init=0.05)
+def mlp_confusion_matrix(model, x_test, y_test):
+    y_pred = model.predict(x_test)
+    return confusion_matrix(y_test, y_pred)
 
-model.fit(x_train, y_train)
-y_pred = model.predict(x_test)
-plt.plot(model.loss_curve_)
-plt.show()
-print(classification_report(y_test, y_pred))
-print(confusion_matrix(y_test, y_pred))
-cm = ConfusionMatrixDisplay(confusion_matrix=confusion_matrix(y_test, y_pred))
-cm.plot()
-plt.show()
+
+# cm = ConfusionMatrixDisplay(confusion_matrix=confusion_matrix(y_test, y_pred))
+# cm.plot()
+# plt.show()
+
