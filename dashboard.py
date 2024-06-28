@@ -53,7 +53,7 @@ match model_name:
         # model = KNeighborsClassifier(n_neighbors=n_neighbors)
 
     case "SVC":
-        C = st.selectbox("C", [0.1, 0.15, 0.2, 0.25, 1, 10], 4)
+        C = st.selectbox("C", [0.1, 0.15, 0.2, 0.25, 1.0, 10.0], 4)
         kernel = st.selectbox("solver", ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'], 2)
         gamma = st.selectbox("gamma", ['scale', 'auto'], 0)
         if kernel == "poly":
