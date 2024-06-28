@@ -71,11 +71,6 @@ if st.button("Train"):
 
     st.toast("Done")
 
-if solver == "Poly":
-    degree = st.selectbox("degree", [1, 2, 3, 4, 5, 6, 7, 8, 9], 2)
-else:
-    degree = 3
-
 if st.button("Save Model"):
     st.write("saving")
     print(os.getcwd())
