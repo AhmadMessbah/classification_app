@@ -103,8 +103,8 @@ if st.button("Save Model"):
 if st.button("Test"):
         st.toast("Wait for testing ...")
 
-        mlp_trainer(model, x_train, y_train)
-        st.write(mlp_tester(model, x_test, y_test))
+        svc_trainer(model, x_train, y_train)
+        st.write(svc_tester(model, x_test, y_test))
         st.toast("Done")
 
 
