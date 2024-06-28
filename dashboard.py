@@ -7,6 +7,10 @@ from models.rf_model import *
 
 st.title("Machine Learning Dashboard")
 
+
+style = "<style> .appview-container .main .block-container{ max-width: 100%; padding: 50px;}</style>"""
+st.markdown(body=style, unsafe_allow_html=True)
+
 dataset_file = st.file_uploader("Upload Dataset")
 
 if dataset_file:
@@ -24,8 +28,12 @@ if dataset_file:
     X = df.drop(columns=y)
     y = df[y]
 
-    st.write(X)
-    st.write(y)
+    col1, col2 = st.columns([0.8,0.5])
+
+    with col1:
+        st.write(X)
+    with col2:
+        st.write(y)
 
 if st.checkbox("Train Test Split"):
     test_size = int(st.slider("Test Size %",5,50,20))
@@ -84,10 +92,10 @@ if st.button("Train"):
     model.fit(x_train, y_train)
 
     st.toast("Done")
-    if st.button("Save Model"):
-        print(os.getcwd())
-        with open("model.pkl", "wb") as file:
-            pickle.dump(model, file)
+if st.button("Save Model"):
+    print(os.getcwd())
+    with open("model.pkl", "wb") as file:
+        pickle.dump(model, file)
 
 if st.button("Test"):
         st.toast("Wait for testing ...")
