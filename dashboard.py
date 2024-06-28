@@ -41,7 +41,7 @@ if st.checkbox("Train Test Split"):
 
 model_name = st.selectbox("Select Model",
                           ["LogisticRegression", "KNeighborsClassifier", "SVC", "DecisionTreeClassifier",
-                           "MLPClassifier","RandomForestClassifier"])
+                           "MLPClassifier","RandomForestClassifier"],2)
 
 match model_name:
     case "LogisticRegression":
@@ -102,7 +102,7 @@ if st.button("Save Model"):
 
 if st.button("Test"):
         st.toast("Wait for testing ...")
-    if model_name== 'MLPClassifier':
+    if model_name== 'SVC':
         mlp_trainer(model, x_train, y_train)
         st.write(mlp_tester(model, x_test, y_test))
         st.toast("Done")
