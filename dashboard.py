@@ -48,7 +48,7 @@ match model_name:
         C = st.selectbox("C", [0.1,0.15,0.2,0.25,1,10], 4)
         solver = st.selectbox("solver", ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'], 2)
         gamma = st.selectbox("gamma", [0.1,0.15,0.2,0], 0)
-        if solver == "Poly":
+        if solver == "poly":
             degree = st.selectbox("degree", [1, 2, 3, 4, 5, 6, 7, 8, 9],2)
         else:
             degree = 3
@@ -71,7 +71,13 @@ if st.button("Train"):
 
     st.toast("Done")
 
-    if st.button("Save Model"):
-        print(os.getcwd())
-        with open("model.pkl", "wb") as file:
-            pickle.dump(model, file)
+if solver == "Poly":
+    degree = st.selectbox("degree", [1, 2, 3, 4, 5, 6, 7, 8, 9], 2)
+else:
+    degree = 3
+
+if st.button("Save Model"):
+    st.write("saving")
+    print(os.getcwd())
+    with open("c:/root/model.pkl", "wb") as file:
+        pickle.dump(model, file)
