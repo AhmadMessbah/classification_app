@@ -60,7 +60,7 @@ match model_name:
             degree = st.selectbox("degree", [1, 2, 3, 4, 5, 6, 7, 8, 9], 2)
         else:
             degree = 3
-        model = svc_model_maker(C, kernel, degree, gamma)
+        model = svc_model_maker(C,kernel, degree, gamma)
 
     case "DecisionTreeClassifier":
         d_tree_splitter = st.text_input("splitter", "best")
