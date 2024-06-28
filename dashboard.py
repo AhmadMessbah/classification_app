@@ -59,9 +59,13 @@ match model_name:
         activation = st.selectbox("activation", ["identity", "logistic", "relu", "tanh"], 2)
         solver = st.selectbox("solver", ["lbfgs", "sgd", "adam"], 2)
         verbose=st.selectbox("verbose", [False, True],0)
-        max_iter = eval(st.text_input("max_iter", 200))
-        learning_rate_init=eval(st.text_input("learning_rate_init", 0.001))
-        model = mlp_model_maker(mlp_hidden_layers, activation, solver)
+        print(verbose)
+        max_iter = int(st.text_input("max_iter", 200))
+        print(max_iter)
+        learning_rate_init=float(st.text_input("learning_rate_init", 0.001))
+        print(learning_rate_init)
+        print(type(learning_rate_init))
+        model = mlp_model_maker(mlp_hidden_layers, activation, solver,learning_rate_init, max_iter, verbose)
 
 
 if st.button("Train"):
@@ -70,8 +74,16 @@ if st.button("Train"):
     model.fit(x_train, y_train)
 
     st.toast("Done")
-
     if st.button("Save Model"):
         print(os.getcwd())
         with open("model.pkl", "wb") as file:
             pickle.dump(model, file)
+
+if st.button("Test"):
+        st.toast("Wait for testing ...")
+
+        mlp_trainer(model, x_train, y_train)
+        st.write(mlp_tester(model, x_test, y_test))
+        st.toast("Done")
+
+
