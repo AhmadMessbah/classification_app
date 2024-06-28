@@ -53,11 +53,14 @@ match model_name:
         # model = KNeighborsClassifier(n_neighbors=n_neighbors)
 
     case "SVC":
-        svc_c = st.text_input("C", 1)
-        svc_kernel = st.text_input("kernel", "poly")
-        model = svc_model_maker(svc_c, svc_kernel)
-        model = svc_trainer(model, x_train, y_train)
-        report = svc_tester(model, x_test, y_test)
+        C = st.selectbox("C", [0.1, 0.15, 0.2, 0.25, 1, 10], 4)
+        kernel = st.selectbox("solver", ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'], 2)
+        gamma = st.selectbox("gamma", ['scale', 'auto'], 0)
+        if kernel == "poly":
+            degree = st.selectbox("degree", [1, 2, 3, 4, 5, 6, 7, 8, 9], 2)
+        else:
+            degree = 3
+        model = svc_model_maker(C,kernel, degree, gamma)
 
     case "DecisionTreeClassifier":
         d_tree_splitter = st.text_input("splitter", "best")
