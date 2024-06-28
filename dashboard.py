@@ -3,6 +3,7 @@ import pickle
 import streamlit as st
 import pandas as pd
 from models import *
+from models.rf_model import *
 
 st.title("Machine Learning Dashboard")
 
@@ -40,7 +41,7 @@ if st.checkbox("Train Test Split"):
 
 model_name = st.selectbox("Select Model",
                           ["LogisticRegression", "KNeighborsClassifier", "SVC", "DecisionTreeClassifier",
-                           "MLPClassifier"])
+                           "MLPClassifier","RandomForestClassifier"])
 
 match model_name:
     case "LogisticRegression":
@@ -74,6 +75,15 @@ match model_name:
         print(learning_rate_init)
         print(type(learning_rate_init))
         model = mlp_model_maker(mlp_hidden_layers, activation, solver,learning_rate_init, max_iter, verbose)
+
+
+    case "RandomForestClassifier":
+        rf_estimator = st.text_input("n_estimators" , 100)
+        max_depth = st.text_input("Max Depth", "None")
+        min_samples_split =int(st.slider("Min Sample Split",2,20,2))
+        min_samples_leaf = int(st.slider("Min Sample Leaf",1,20,2))
+        criterion = st.selectbox("criterion", ["gini", "entropy", "log_loss"] , 0)
+        model = rf_model_maker(rf_estimator, criterion, max_depth, min_samples_split, min_samples_leaf)
 
 
 if st.button("Train"):
