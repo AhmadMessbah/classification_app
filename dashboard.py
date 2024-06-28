@@ -1,6 +1,5 @@
 import os
 import pickle
-
 import streamlit as st
 import pandas as pd
 from models import *
@@ -59,7 +58,11 @@ match model_name:
         mlp_hidden_layers = eval(st.text_input("hidden_layer_sizes", (100,)))
         activation = st.selectbox("activation", ["identity", "logistic", "relu", "tanh"], 2)
         solver = st.selectbox("solver", ["lbfgs", "sgd", "adam"], 2)
+        verbose=st.selectbox("verbose", [False, True],0)
+        max_iter = eval(st.text_input("max_iter", 200))
+        learning_rate_init=eval(st.text_input("learning_rate_init", 0.001))
         model = mlp_model_maker(mlp_hidden_layers, activation, solver)
+
 
 if st.button("Train"):
     st.toast("Wait for training ...")
