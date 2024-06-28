@@ -5,9 +5,6 @@ import pandas as pd
 from models import *
 from models.rf_model import *
 
-X = y = None
-drop_list = []
-
 st.title("Machine Learning Dashboard")
 
 
@@ -22,11 +19,7 @@ if dataset_file:
 
     st.write(df)
 
-    drop_list = []
-
     drop = st.selectbox("Drop Fields", df.columns.values)
-
-
 
     df.drop(columns=drop, inplace=True)
 
@@ -42,79 +35,73 @@ if dataset_file:
     with col2:
         st.write(y)
 
-if X and y:
-    test_size = 20
-    if st.checkbox("Train Test Split"):
-        test_size = int(st.slider("Test Size %", 5, 50, 20))
-
+if st.checkbox("Train Test Split"):
+    test_size = int(st.slider("Test Size %",5,50,20))
     x_train, x_test, y_train, y_test = data_splitter(X, y, test_size=test_size)
 
-    model_name = st.selectbox("Select Model",
-                              ["LogisticRegression", "KNeighborsClassifier", "SVC", "DecisionTreeClassifier",
-                               "MLPClassifier", "RandomForestClassifier"])
+model_name = st.selectbox("Select Model",
+                          ["LogisticRegression", "KNeighborsClassifier", "SVC", "DecisionTreeClassifier",
+                           "MLPClassifier","RandomForestClassifier"])
 
-    match model_name:
-        case "LogisticRegression":
-            st.write("Logistic Regression")
-            # model = LogisticRegression()
+match model_name:
+    case "LogisticRegression":
+        st.write("Logistic Regression")
+        # model = LogisticRegression()
 
-        case "KNeighborsClassifier":
-            n_neighbors = st.text_input("n_neighbors", 5)
-            # model = KNeighborsClassifier(n_neighbors=n_neighbors)
+    case "KNeighborsClassifier":
+        n_neighbors = st.text_input("n_neighbors", 5)
+        # model = KNeighborsClassifier(n_neighbors=n_neighbors)
 
-        case "SVC":
-            C = st.selectbox("C", [0.1, 0.15, 0.2, 0.25, 1.0, 10.0], 4)
-            kernel = st.selectbox("solver", ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'], 2)
-            gamma = st.selectbox("gamma", ['scale', 'auto'], 0)
-            if kernel == "poly":
-                degree = st.selectbox("degree", [1, 2, 3, 4, 5, 6, 7, 8, 9], 2)
-            else:
-                degree = 3
-            model = svc_model_maker(C, kernel, degree, gamma)
+    case "SVC":
+        svc_c = st.text_input("C", 1)
+        svc_kernel = st.text_input("kernel", "poly")
+        model = svc_model_maker(svc_c, svc_kernel)
+        model = svc_trainer(model, x_train, y_train)
+        report = svc_tester(model, x_test, y_test)
 
-        case "DecisionTreeClassifier":
-            d_tree_splitter = st.text_input("splitter", "best")
-            # model = DecisionTreeClassifier(splitter=d_tree_splitter)
+    case "DecisionTreeClassifier":
+        d_tree_splitter = st.text_input("splitter", "best")
+        # model = DecisionTreeClassifier(splitter=d_tree_splitter)
 
-        case "MLPClassifier":
-            mlp_hidden_layers = eval(st.text_input("hidden_layer_sizes", (100,)))
-            activation = st.selectbox("activation", ["identity", "logistic", "relu", "tanh"], 2)
-            solver = st.selectbox("solver", ["lbfgs", "sgd", "adam"], 2)
-            verbose = st.selectbox("verbose", [False, True], 0)
-            print(verbose)
-            max_iter = int(st.text_input("max_iter", 200))
-            print(max_iter)
-            learning_rate_init = float(st.text_input("learning_rate_init", 0.001))
-            print(learning_rate_init)
-            print(type(learning_rate_init))
-            model = mlp_model_maker(mlp_hidden_layers, activation, solver, learning_rate_init, max_iter, verbose)
+    case "MLPClassifier":
+        mlp_hidden_layers = eval(st.text_input("hidden_layer_sizes", (100,)))
+        activation = st.selectbox("activation", ["identity", "logistic", "relu", "tanh"], 2)
+        solver = st.selectbox("solver", ["lbfgs", "sgd", "adam"], 2)
+        verbose=st.selectbox("verbose", [False, True],0)
+        print(verbose)
+        max_iter = int(st.text_input("max_iter", 200))
+        print(max_iter)
+        learning_rate_init=float(st.text_input("learning_rate_init", 0.001))
+        print(learning_rate_init)
+        print(type(learning_rate_init))
+        model = mlp_model_maker(mlp_hidden_layers, activation, solver,learning_rate_init, max_iter, verbose)
 
-        case "RandomForestClassifier":
-            rf_estimator = st.text_input("n_estimators", 100)
-            max_depth = st.text_input("Max Depth", "None")
-            min_samples_split = int(st.slider("Min Sample Split", 2, 20, 2))
-            min_samples_leaf = int(st.slider("Min Sample Leaf", 1, 20, 2))
-            criterion = st.selectbox("criterion", ["gini", "entropy", "log_loss"], 0)
-            model = rf_model_maker(rf_estimator, criterion, max_depth, min_samples_split, min_samples_leaf)
 
-    if st.button("Train"):
-        st.toast("Wait for training ...")
+    case "RandomForestClassifier":
+        rf_estimator = st.text_input("n_estimators" , 100)
+        max_depth = st.text_input("Max Depth", "None")
+        min_samples_split =int(st.slider("Min Sample Split",2,20,2))
+        min_samples_leaf = int(st.slider("Min Sample Leaf",1,20,2))
+        criterion = st.selectbox("criterion", ["gini", "entropy", "log_loss"] , 0)
+        model = rf_model_maker(rf_estimator, criterion, max_depth, min_samples_split, min_samples_leaf)
 
-        model.fit(x_train, y_train)
 
-        st.toast("Done")
-    if st.button("Save Model"):
-        print(os.getcwd())
-        with open("model.pkl", "wb") as file:
-            pickle.dump(model, file)
+if st.button("Train"):
+    st.toast("Wait for training ...")
 
-    if st.button("Test"):
+    model.fit(x_train, y_train)
+
+    st.toast("Done")
+if st.button("Save Model"):
+    print(os.getcwd())
+    with open("model.pkl", "wb") as file:
+        pickle.dump(model, file)
+
+if st.button("Test"):
         st.toast("Wait for testing ...")
 
-        svc_trainer(model, x_train, y_train)
-        st.write(svc_tester(model, x_test, y_test))
+        mlp_trainer(model, x_train, y_train)
+        st.write(mlp_tester(model, x_test, y_test))
         st.toast("Done")
-
-
 
 
