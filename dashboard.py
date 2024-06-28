@@ -41,7 +41,7 @@ if st.checkbox("Train Test Split"):
 
 model_name = st.selectbox("Select Model",
                           ["LogisticRegression", "KNeighborsClassifier", "SVC", "DecisionTreeClassifier",
-                           "MLPClassifier","RandomForestClassifier"],2)
+                           "MLPClassifier","RandomForestClassifier"])
 
 match model_name:
     case "LogisticRegression":
