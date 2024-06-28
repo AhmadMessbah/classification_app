@@ -48,7 +48,11 @@ match model_name:
         C = st.selectbox("C", [0.1,0.15,0.2,0.25,1,10], 4)
         solver = st.selectbox("solver", ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'], 2)
         gamma = st.selectbox("gamma", [0.1,0.15,0.2,0], 0)
-        model = mlp_model_maker(C, solver)
+        if solver == "Poly":
+            degree = st.selectbox("degree", [1, 2, 3, 4, 5, 6, 7, 8, 9],2)
+        else:
+            degree = 3
+        model = svc_model_maker(C, solver,gamma,degree)
 
     case "DecisionTreeClassifier":
         d_tree_splitter = st.text_input("splitter", "best")
