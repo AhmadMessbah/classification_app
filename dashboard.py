@@ -45,11 +45,10 @@ match model_name:
         # model = KNeighborsClassifier(n_neighbors=n_neighbors)
 
     case "SVC":
-        svc_c = st.text_input("C", 1)
-        svc_kernel = st.text_input("kernel", "poly")
-        model = svc_model_maker(svc_c, svc_kernel)
-        model = svc_trainer(model, x_train, y_train)
-        report = svc_tester(model, x_test, y_test)
+        C = st.selectbox("C", [0.1,0.15,0.2,0.25,1,10], 4)
+        solver = st.selectbox("solver", ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'], 2)
+        gamma = st.selectbox("gamma", [0.1,0.15,0.2,0], 0)
+        model = mlp_model_maker(C, solver)
 
     case "DecisionTreeClassifier":
         d_tree_splitter = st.text_input("splitter", "best")
