@@ -4,7 +4,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.svm import SVC
 
 def train_model(model, params, x_train, y_train):
-    params= {'C':[0.1,0.15,0.2,0.25,1,10],'gamma':[0.1,0.15,0.2,0],'kernel':['linear', 'poly', 'rbf', 'sigmoid', 'precomputed']}
+    params= {'C':[0.1,0.15,0.2,0.25,1,10],'gamma':['scale', 'auto'],'kernel':['linear', 'poly', 'rbf', 'sigmoid', 'precomputed']}
     grid_search = GridSearchCV(estimator=SVC(), param_grid=params, verbose=1, n_jobs=-1, scoring="accuracy")
     grid_search.fit(x_train, y_train)
     print(grid_search.best_score_)
