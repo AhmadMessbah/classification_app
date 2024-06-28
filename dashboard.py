@@ -28,7 +28,7 @@ if dataset_file:
     X = df.drop(columns=y)
     y = df[y]
 
-    col1, col2 = st.columns([0.9,0.1])
+    col1, col2 = st.columns([0.8,0.5])
 
     with col1:
         st.write(X)
