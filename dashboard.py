@@ -4,7 +4,7 @@ import streamlit as st
 import pandas as pd
 from models import *
 from models.rf_model import *
-
+from models.knn_model import *
 st.title("Machine Learning Dashboard")
 
 
@@ -49,8 +49,7 @@ match model_name:
         # model = LogisticRegression()
 
     case "KNeighborsClassifier":
-        n_neighbors = st.text_input("n_neighbors", 5)
-        # model = KNeighborsClassifier(n_neighbors=n_neighbors)
+        start()
 
     case "SVC":
         svc_c = st.text_input("C", 1)
